@@ -1,4 +1,228 @@
+import kotlin.Long.Companion.MAX_VALUE
+
 fun main() {
+    val input = generateSequence(::readLine)
+    val lines = input.toList()
+    val bids = mutableListOf<Int>()
+    val cards = mutableListOf<String>()
+    val map = mutableMapOf('A' to 0, 'K' to 0, 'Q' to 0, 'J' to 0, 'T' to 0, '9' to 0, '8' to 0, '7' to 0, '6' to 0,
+        '5' to 0, '4' to 0, '3' to 0, '2' to 0)
+    for (i in lines) {
+        bids.add(i.split(" ")[1].toInt())
+        cards.add(i.split(" ")[0])
+    }
+    for (i in cards) {
+        val chars = i.toCharArray()
+        for (j in chars) {
+            map[j] = map[j]!! + 1
+        }
+
+    }
+}
+
+fun main6() {
+    val input = generateSequence(::readLine)
+    val lines = input.toList()
+    val times = lines[0].split(":")[1].split(" ").toMutableList()
+    times.removeAll(listOf(""))
+    val dist = lines[1].split(":")[1].split(" ").toMutableList()
+    dist.removeAll(listOf(""))
+
+    var total = 0
+    for (j in 0..51699878) {
+        if (j*(51699878L-j) > 377117112241505L) {
+            total++
+        }
+    }
+
+    println(total)
+}
+
+fun main5() {
+    val input = generateSequence(::readLine)
+    val lines = input.toList()
+    var seeds = listOf<String>()
+    val soil = mutableListOf<Triple<Long,Long,Long>>()
+    val fert = mutableListOf<Triple<Long,Long,Long>>()
+    val water = mutableListOf<Triple<Long,Long,Long>>()
+    val light = mutableListOf<Triple<Long,Long,Long>>()
+    val temp = mutableListOf<Triple<Long,Long,Long>>()
+    val hum = mutableListOf<Triple<Long,Long,Long>>()
+    val loc = mutableListOf<Triple<Long,Long,Long>>()
+
+    var soilB = false
+    var fertB = false
+    var waterB = false
+    var lightB = false
+    var tempB = false
+    var humB = false
+    var locB = false
+
+    for (i in lines) {
+        if (i.contains("seeds:")) {
+            val str = i.substring(startIndex = 7)
+            seeds = str.split(" ")
+        } else if (i.contains("seed-to-soil")) {
+            soilB = true
+        } else if (i.contains("soil-to-fertilizer")) {
+            fertB = true
+        } else if (i.contains("fertilizer-to-water")) {
+            waterB = true
+        } else if (i.contains("water-to-light")) {
+            lightB = true
+        } else if (i.contains("light-to-temperature")) {
+            tempB = true
+        } else if (i.contains("temperature-to-humidity")) {
+            humB = true
+        } else if (i.contains("humidity-to-location")) {
+            locB = true
+        } else if (i == "") {
+             soilB = false
+             fertB = false
+             waterB = false
+             lightB = false
+             tempB = false
+             humB = false
+             locB = false
+        } else if (soilB) {
+            val str = i.split(" ")
+            soil.add(Triple(str[0].toLong(), str[1].toLong(), str[2].toLong()))
+        } else if (fertB) {
+            val str = i.split(" ")
+            fert.add(Triple(str[0].toLong(), str[1].toLong(), str[2].toLong()))
+        } else if (waterB) {
+            val str = i.split(" ")
+            water.add(Triple(str[0].toLong(), str[1].toLong(), str[2].toLong()))
+        } else if (lightB) {
+            val str = i.split(" ")
+            light.add(Triple(str[0].toLong(), str[1].toLong(), str[2].toLong()))
+        } else if (tempB) {
+            val str = i.split(" ")
+            temp.add(Triple(str[0].toLong(), str[1].toLong(), str[2].toLong()))
+        } else if (humB) {
+            val str = i.split(" ")
+            hum.add(Triple(str[0].toLong(), str[1].toLong(), str[2].toLong()))
+        } else if (locB) {
+            val str = i.split(" ")
+            loc.add(Triple(str[0].toLong(), str[1].toLong(), str[2].toLong()))
+        }
+    }
+
+    var min: Long = MAX_VALUE
+
+    for (k in seeds.indices) {
+        if (k % 2 == 0) {
+            for (l in 0..<seeds[k+1].toLong()) {
+                var i =seeds[k].toLong()+l
+                for (j in soil) {
+                    if (i >= j.second && i < j.second + j.third ) {
+                        i=j.first + (i - j.second)
+                        break
+                    }
+                }
+                for (j in fert) {
+                    if (i >= j.second && i < j.second + j.third ) {
+                        i=j.first + (i - j.second)
+                        break
+                    }
+                }
+                for (j in water) {
+                    if (i >= j.second && i < j.second + j.third ) {
+                        i=j.first + (i - j.second)
+                        break
+                    }
+                }
+                for (j in light) {
+                    if (i >= j.second && i < j.second + j.third ) {
+                        i=j.first + (i - j.second)
+                        break
+                    }
+                }
+                for (j in temp) {
+                    if (i >= j.second && i < j.second + j.third ) {
+                        i=j.first + (i - j.second)
+                        break
+                    }
+                }
+                for (j in hum) {
+                    if (i >= j.second && i < j.second + j.third ) {
+                        i=j.first + (i - j.second)
+                        break
+                    }
+                }
+                for (j in loc) {
+                    if (i >= j.second && i < j.second + j.third ) {
+                        i=j.first + (i - j.second)
+                        break
+                    }
+                }
+
+                if (i < min) {
+                    min = i
+                }
+
+            }
+        } else {
+            continue
+        }
+    }
+
+    println(min)
+
+}
+
+fun main4() {
+    val input = generateSequence(::readLine)
+    val lines = input.toList()
+
+    val mynum = mutableListOf<String>()
+    val num = mutableListOf<String>()
+
+    for (i in lines) {
+        mynum.add(i.split("|")[1])
+        num.add(i.split("|")[0].split(":")[1])
+    }
+
+    var totalsum = 0
+    val mycards = mutableListOf<MutableList<String>>()
+    val cards = mutableListOf<MutableList<String>>()
+
+    val augmycards = mutableListOf<MutableList<String>>()
+    val augcards = mutableListOf<MutableList<String>>()
+
+    for (i in mynum.indices) {
+        val mynums = mynum[i].split(" ").toMutableList()
+        mynums.removeAll(listOf(""))
+        mycards.add(mynums)
+        augmycards.add(mynums)
+        val nums = num[i].split(" ").toMutableList()
+        nums.removeAll(listOf(""))
+        cards.add(nums)
+        augcards.add(nums)
+    }
+    var i = 0
+    while (i < mycards.size) {
+        var sum = 0
+        for (j in mycards[i]) {
+            if (cards[i].contains(j)) {
+                sum++
+            }
+        }
+        val count = augmycards.count{ it == mycards[i] }
+        for (k in 1.. count) {
+            for (j in 1..sum) {
+                augcards.add(cards[i + j])
+                augmycards.add(mycards[i + j])
+            }
+        }
+        i++
+    }
+    println(augmycards.size)
+}
+
+
+
+fun main3() {
     val input = generateSequence(::readLine)
     val lines = input.toList()
     val chars = mutableListOf<CharArray>()
